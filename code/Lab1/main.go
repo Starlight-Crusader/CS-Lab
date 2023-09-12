@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+var englishAlphabet []int32
+
 func input(option *int, k1 *int, k2 *string, line *string) {
 	fmt.Print("What operation do you want to perform? 1. Enc / 2. Dec - ")
 	_, _ = fmt.Scanln(option)
@@ -63,29 +65,40 @@ func format(line string) string {
 }
 
 func encdec(line string, key int, operation int, alphabet []int32) string {
-	var newMsg string
+	var finalMsg string
+
+	var searchAlphabet []int32
+	var getAlphabet []int32
+
+	if operation == 1 {
+		searchAlphabet = englishAlphabet
+		getAlphabet = alphabet
+	} else {
+		searchAlphabet = alphabet
+		getAlphabet = englishAlphabet
+	}
 
 	for _, charL := range line {
 		var newCharIndex int
 
-		for index, charA := range alphabet {
+		for index, charA := range searchAlphabet {
 			if charL == charA {
 				if operation == 1 {
-					newCharIndex = (index + key) % len(alphabet)
+					newCharIndex = (index + key) % len(searchAlphabet)
 				} else {
-					newCharIndex = (index - key) % len(alphabet)
+					newCharIndex = (index - key) % len(searchAlphabet)
 					if newCharIndex < 0 {
-						newCharIndex = len(alphabet) + newCharIndex
+						newCharIndex = len(searchAlphabet) + newCharIndex
 					}
 				}
 				break
 			}
 		}
 
-		newMsg += string(alphabet[newCharIndex])
+		finalMsg += string(getAlphabet[newCharIndex])
 	}
 
-	return newMsg
+	return finalMsg
 }
 
 func permuteAlphabet(key2 string, alphabet []int32) []int32 {
@@ -124,11 +137,11 @@ func permuteAlphabet(key2 string, alphabet []int32) []int32 {
 }
 
 func main() {
-	var alphabet []int32
-
 	for char := 'A'; char <= 'Z'; char++ {
-		alphabet = append(alphabet, char)
+		englishAlphabet = append(englishAlphabet, char)
 	}
+
+	alphabet := englishAlphabet
 
 	var option, k1 int
 	var k2, line string
@@ -151,7 +164,6 @@ func main() {
 
 	if len(k2) > 0 {
 		alphabet = permuteAlphabet(k2, alphabet)
-		fmt.Println(string(alphabet))
 	}
 
 	fmt.Println("----------------------------------")
