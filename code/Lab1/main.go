@@ -148,6 +148,14 @@ func main() {
 
 	input(&option, &k1, &k2, &line)
 
+	if !(option == 1 && option == 2) {
+		fmt.Println("======================")
+		fmt.Println("ERROR: Unknown option!")
+		fmt.Println("======================")
+
+		return
+	}
+
 	line = format(strings.ToUpper(line))
 
 	if len(k2) > 0 {
