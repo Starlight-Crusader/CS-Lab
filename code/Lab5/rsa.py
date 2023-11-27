@@ -54,11 +54,12 @@ msg = "Nume Prenume"
 m = int(''.join(str(ord(char)) for char in msg))
 print("Initial message ~ 'Nume Prenume' ~", m, end="\n\n")
 
-# enc(m, pub) - m^pub.e mod pub.n / dec(c, priv) - c^priv.d mod priv
+# enc(m, pub) - m^pub.e mod pub.n / dec(c, priv) - c^priv.d mod priv.n
 # * pub.n = priv.n = n
 
 c = pow(m, e, n)
 m = pow(c, d, n)
 
-print("enc(m) = ", c)
-print("dec(c) = ", m)
+print("enc(m, pub) = m^pub.e mod pub.n = ")
+print(c)
+print("dec(c) = c^priv.d mod priv.n =", m)
